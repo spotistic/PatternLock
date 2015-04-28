@@ -9,7 +9,7 @@
 #import "NormalCircle.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define kOuterColor	[UIColor colorWithRed:22.0/255.0 green:160.0/255.0 blue:133.0/255.0 alpha:1.0]
+#define kOuterColor	[UIColor colorWithRed:22.0/255.0 green:160.0/255.0 blue:133.0/255.0 alpha:0.5]
 #define kInnerColor	[UIColor colorWithRed:22.0/255.0 green:160.0/255.0 blue:133.0/255.0 alpha:0.0]
 #define kHighlightColor	[UIColor colorWithRed:22.0/255.0 green:160.0/255.0 blue:133.0/255.0 alpha:1.0]
 
@@ -49,25 +49,20 @@
 	CGContextSetFillColorWithColor(context, kInnerColor.CGColor);
 	CGContextFillEllipseInRect(context, innerRect);
 	
-	if(self.selected == NO)
-		return;
-	
 	// For selected View
-	CGRect smallerRect = CGRectInset(rectToDraw,10, 10);
+	CGRect smallerRect = CGRectInset(rectToDraw,15, 15);
 	CGContextSetFillColorWithColor(context, kHighlightColor.CGColor);
 	CGContextFillEllipseInRect(context, smallerRect);
 }
 
 - (void)highlightCell
 {
-	self.selected = YES;
-	[self setNeedsDisplay];
+
 }
 
 - (void)resetCell
 {
-	self.selected = NO;
-	[self setNeedsDisplay];
+
 }
 
 
