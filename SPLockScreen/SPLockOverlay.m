@@ -9,7 +9,7 @@
 #import "SPLockOverlay.h"
 
 #define kLineColor	[UIColor colorWithRed:22.0/255.0 green:160.0/255.0 blue:133.0/255.0 alpha:0.6]
-#define kLineGridColor  [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0]
+#define kLineGridColor  [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:0.0]
 
 @implementation SPLockOverlay
 
