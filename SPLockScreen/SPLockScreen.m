@@ -140,7 +140,10 @@
 {
 	self.oldCellIndex = self.currentCellIndex;
 	NSInteger cellPos = [self indexForPoint:point];
-	
+
+  if(self.oldCellIndex == -1)
+    [self resetScreen];
+
 	if(cellPos >=0 && cellPos != self.oldCellIndex)
 		[self.cellsInOrder addObject:@(self.currentCellIndex)];
 	
@@ -178,19 +181,30 @@
 	NSLog(@"PATTERN: %@",[self patternToUniqueId]);
 	if ([self.delegate respondsToSelector:@selector(lockScreen:didEndWithPattern:)])
 		[self.delegate lockScreen:self didEndWithPattern:[self patternToUniqueId]];
-	
-	[self resetScreen];
+
+  self.oldCellIndex = -1;
+  self.currentCellIndex = -1;
+  self.selectedCell = nil;
 }
 
 - (NSNumber *)patternToUniqueId
 {
-	long finalNumber = 0;
-	long thisNum;
-	for(int i = self.cellsInOrder.count - 1 ; i >= 0 ; i--){
-		thisNum = ([[self.cellsInOrder objectAtIndex:i] integerValue] + 1) * pow(10, (self.cellsInOrder.count - i - 1));
-		finalNumber = finalNumber + thisNum;
-	}
-	return @(finalNumber);
+  NSArray *copy = [self.cellsInOrder copy];
+  NSInteger index = [copy count] - 1;
+  for (id object in [copy reverseObjectEnumerator]) {
+    if ([self.cellsInOrder indexOfObject:object inRange:NSMakeRange(0, index)] != NSNotFound) {
+      [self.cellsInOrder removeObjectAtIndex:index];
+    }
+    index--;
+  }
+
+  long finalNumber = 0;
+  long thisNum;
+  for(int i = self.cellsInOrder.count - 1 ; i >= 0 ; i--){
+    thisNum = ([[self.cellsInOrder objectAtIndex:i] integerValue] + 1) * pow(10, (self.cellsInOrder.count - i - 1));
+    finalNumber = finalNumber + thisNum;
+  }
+  return @(finalNumber);
 }
 
 - (void)resetScreen
@@ -205,9 +219,6 @@
 	[self.cellsInOrder removeAllObjects];
 	[self.overLay.pointsToDraw removeAllObjects];
 	[self.overLay setNeedsDisplay];
-	self.oldCellIndex = -1;
-	self.currentCellIndex = -1;
-	self.selectedCell = nil;
 }
 
 
